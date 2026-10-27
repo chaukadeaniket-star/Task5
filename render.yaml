@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: internboard
+    runtime: node
+    plan: starter
+    buildCommand: npm ci --prefix edvyro-frontend && npm run build --prefix edvyro-frontend
+    startCommand: npm start
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATABASE_PATH
+        value: /var/data/edvyro.sqlite
+    disk:
+      name: internboard-data
+      mountPath: /var/data
+      sizeGB: 1

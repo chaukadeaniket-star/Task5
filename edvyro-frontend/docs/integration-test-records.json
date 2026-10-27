@@ -1,0 +1,40 @@
+{
+  "fixtureSource": "../../edvyro-backend/test/fixtures/integration-test-records.json",
+  "apiBaseUrl": "http://127.0.0.1:5000/api/v1",
+  "requests": [
+    {
+      "name": "health",
+      "method": "GET",
+      "path": "/health",
+      "expectedStatus": 200
+    },
+    {
+      "name": "internship-search",
+      "method": "GET",
+      "path": "/internships?q=React",
+      "expectedStatus": 200
+    },
+    {
+      "name": "invalid-application",
+      "method": "POST",
+      "path": "/applications",
+      "fixture": "invalidApplication",
+      "expectedStatus": 400
+    },
+    {
+      "name": "valid-application",
+      "method": "POST",
+      "path": "/applications",
+      "fixture": "validApplication",
+      "expectedStatus": 201
+    },
+    {
+      "name": "rate-limited-application",
+      "method": "POST",
+      "path": "/applications",
+      "fixture": "validApplication",
+      "repeatAfterLimit": true,
+      "expectedStatus": 429
+    }
+  ]
+}

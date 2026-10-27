@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--{DOCUMENT METADATA}-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8faff">
+    <title>Apply for Internship | InternBoard</title>
+    <link rel="stylesheet" href="../styles/Apply.css">
+    <link rel="icon" href="../assets/optimized/favicon.png" type="image/png">
+</head>
+<body>
+    <!--{NAVBAR}-->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="logo" aria-label="InternBoard home">
+                <span class="logo-cap" aria-hidden="true">🎓</span>
+                <span>Intern<span>Board</span></span>
+            </a>
+            <a class="back-link" href="Browse.html">← Back to internships</a>
+        </div>
+    </header>
+
+    <!--{APPLY LAYOUT}-->
+    <main class="apply-layout">
+        <!--{APPLY INTRO}-->
+        <section class="apply-intro">
+            <span class="eyebrow">YOUR NEXT STEP</span>
+            <h1>Apply for an internship</h1>
+            <p>Share a few details with the hiring team to take the next step in your career.</p>
+
+            <aside class="opportunity-card" aria-labelledby="opportunityTitle">
+                <span class="opportunity-label">YOU'RE APPLYING FOR</span>
+                <h2 id="opportunityTitle">Internship opportunity</h2>
+                <p class="opportunity-company" id="opportunityCompany"></p>
+                <div class="opportunity-details">
+                    <span id="opportunityLocation"></span>
+                    <span id="opportunityDuration"></span>
+                    <span id="opportunityStipend"></span>
+                </div>
+                <p class="opportunity-skills" id="opportunitySkills"></p>
+            </aside>
+        </section>
+
+        <!--{APPLICATION CARD}-->
+        <section class="application-card" aria-labelledby="applicationHeading">
+            <div class="card-heading">
+                <div class="card-icon" aria-hidden="true">✉</div>
+                <div>
+                    <h2 id="applicationHeading">Application details</h2>
+                    <p>Fields marked with * are required.</p>
+                </div>
+            </div>
+
+            <!--{APPLICATION FORM}-->
+            <form id="applicationForm">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="applicantName">Full name *</label>
+                        <input id="applicantName" name="name" type="text"
+                            autocomplete="name" placeholder="Your full name" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="applicantEmail">Email address *</label>
+                        <input id="applicantEmail" name="email" type="email"
+                            autocomplete="email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="applicantPhone">Phone number</label>
+                        <input id="applicantPhone" name="phone" type="tel"
+                            autocomplete="tel" placeholder="+91 98765 43210" required>
+                    </div>
+
+                    <div class="form-field">
+                        <span class="field-hint">Your application is saved to your account. Add a resume link in your cover letter if the employer requests one.</span>
+                    </div>
+                </div>
+
+                <div class="form-field cover-letter-field">
+                    <label for="coverLetter">Why are you a good fit? *</label>
+                    <textarea id="coverLetter" name="coverLetter" rows="5"
+                        placeholder="Tell the hiring team about your interest, skills, and experience."
+                        minlength="20" required></textarea>
+                    <span class="field-hint">Please write at least 20 characters.</span>
+                </div>
+
+                <button class="submit-application" type="submit">
+                    Submit application <span aria-hidden="true">→</span>
+                </button>
+                <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+                <p class="form-note">Your application is securely saved to your InternBoard account.</p>
+            </form>
+        </section>
+    </main>
+
+    <!--{PAGE SCRIPT}-->
+    <script>
+        const query = new URLSearchParams(window.location.search);
+        const opportunity = {
+            job: query.get("job"),
+            company: query.get("company"),
+            location: query.get("location"),
+            duration: query.get("duration"),
+            stipend: query.get("stipend"),
+            skills: query.get("skills")
+        };
+
+        function setOpportunityText(elementId, value) {
+            const element = document.getElementById(elementId);
+            element.textContent = value || "";
+            element.hidden = !value;
+        }
+
+        setOpportunityText("opportunityTitle", opportunity.job || "Internship opportunity");
+        setOpportunityText("opportunityCompany", opportunity.company);
+        setOpportunityText("opportunityLocation", opportunity.location);
+        setOpportunityText("opportunityDuration", opportunity.duration);
+        setOpportunityText("opportunityStipend", opportunity.stipend);
+        setOpportunityText("opportunitySkills", opportunity.skills);
+
+        const applicationForm = document.getElementById("applicationForm");
+        try {
+            const savedProfile = window.localStorage.getItem("internboard.studentProfile");
+            if (savedProfile) {
+                const studentProfile = JSON.parse(savedProfile);
+                document.getElementById("applicantName").value = studentProfile.name || "";
+                document.getElementById("applicantEmail").value = studentProfile.email || "";
+            }
+        } catch (error) {
+            document.getElementById("formMessage").textContent =
+                "Your saved profile could not be loaded. You can still enter your details manually.";
+        }
+
+        applicationForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!applicationForm.reportValidity()) {
+                return;
+            }
+
+            const formData = new FormData(applicationForm);
+            const submitButton = applicationForm.querySelector('[type="submit"]');
+            submitButton.disabled = true;
+            document.getElementById("formMessage").textContent = "Submitting your application…";
+            try {
+                await window.InternBoardApi.submitApplication({
+                    fullName: formData.get("name").trim(),
+                    email: formData.get("email").trim(),
+                    phone: formData.get("phone").trim(),
+                    internshipId: query.get("internshipId") || "",
+                    skills: opportunity.skills || "",
+                    coverLetter: formData.get("coverLetter").trim()
+                });
+                window.location.href = "student-dashboard.html?application=submitted";
+            } catch (error) {
+                document.getElementById("formMessage").textContent = error.message;
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+    <script src="../functionality/Api.js"></script>
+    <script src="../functionality/Session.js"></script>
+</body>
+</html>

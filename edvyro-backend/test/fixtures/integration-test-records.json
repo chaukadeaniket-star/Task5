@@ -1,0 +1,27 @@
+{
+  "validApplication": {
+    "fullName": "Taylor Morgan",
+    "email": "taylor@example.com",
+    "phone": "+1 (415) 555-0134",
+    "internshipId": "frontend-developer",
+    "skills": "React, JavaScript, accessibility",
+    "coverLetter": "I enjoy building reliable, user-focused web experiences."
+  },
+  "invalidApplication": {
+    "fullName": "T",
+    "email": "not-an-email",
+    "phone": "123",
+    "internshipId": "",
+    "skills": "",
+    "coverLetter": ""
+  },
+  "unknownInternshipApplication": {
+    "fullName": "Taylor Morgan",
+    "email": "taylor@example.com",
+    "phone": "+1 (415) 555-0134",
+    "internshipId": "unknown-role",
+    "skills": "",
+    "coverLetter": ""
+  },
+  "parameterizedSearch": "frontend%' OR 1=1 --"
+}

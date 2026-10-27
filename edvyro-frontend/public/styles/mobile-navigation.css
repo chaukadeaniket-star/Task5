@@ -1,0 +1,158 @@
+.mobile-navigation-toggle,
+.mobile-auth-link {
+    display: none;
+}
+
+.mobile-skip-link {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    padding: 10px 14px;
+    transform: translateY(-150%);
+    border-radius: 8px;
+    background: #3730a3;
+    color: #fff;
+    font-weight: 700;
+}
+
+.mobile-skip-link:focus {
+    transform: translateY(0);
+}
+
+:focus-visible {
+    outline: 3px solid #6366f1;
+    outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        z-index: 200;
+    }
+
+    .nav-container,
+    .nav_container {
+        position: relative;
+    }
+
+    .nav-actions {
+        margin-left: auto;
+        gap: 8px;
+    }
+
+    .mobile-navigation-toggle {
+        display: inline-flex;
+        min-width: 44px;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border: 1px solid #dfe4ef;
+        border-radius: 10px;
+        background: #fff;
+        color: #20263a;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+
+    .mobile-navigation-toggle:hover {
+        border-color: #5546f7;
+        color: #5546f7;
+    }
+
+    .nav-links,
+    .nav-links.is-open {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: 4%;
+        left: 4%;
+        z-index: 201;
+        display: none;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px;
+        border: 1px solid #e6e9f2;
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 16px 36px rgb(15 23 42 / 14%);
+    }
+
+    .nav-links.is-open {
+        display: flex;
+    }
+
+    .nav-links > a {
+        display: flex;
+        min-height: 44px;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 9px;
+        color: #20263a;
+        font-size: 0.95rem;
+        font-weight: 650;
+    }
+
+    .nav-links > a:hover,
+    .nav-links > a:focus-visible,
+    .nav-links > a.active {
+        background: #f3f1ff;
+        color: #5546f7;
+    }
+
+    .mobile-auth-link {
+        display: flex;
+        border-top: 1px solid #edf0f7;
+        margin-top: 4px;
+        padding-top: 14px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-actions {
+        gap: 6px;
+    }
+
+    .internboard-account-controls {
+        gap: 4px !important;
+        margin-left: 0 !important;
+    }
+
+    .internboard-account-name {
+        display: none !important;
+    }
+
+    .internboard-account-link,
+    .internboard-account-logout {
+        padding-right: 6px !important;
+        padding-left: 6px !important;
+        font-size: 10px !important;
+    }
+
+    .search-button,
+    .search-btn,
+    #searchBtn,
+    .login-btn,
+    #loginBtn,
+    .started-btn,
+    #startedBtn,
+    .get-started-btn {
+        display: none;
+    }
+
+    .mobile-navigation-toggle {
+        min-width: 48px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+edvyro-frontend/.env
+edvyro-frontend/dist/
+edvyro-frontend/node_modules/
+edvyro-backend/node_modules/
+edvyro-backend/data/*.sqlite
+edvyro-backend/data/*.sqlite-shm
+edvyro-backend/data/*.sqlite-wal
